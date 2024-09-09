@@ -1,0 +1,21 @@
+# belop_i_nok -> string -> float
+# Returnerer et tall som er beløpet konvertert til valgt valuta
+fun nok_til_valuta(belop_i_nok :: Number, valuta :: String) -> Number:
+  doc: "Konverterer et gitt beløp i NOK til enten EUR eller USD."
+  valutakurs_euro = 11.80  
+  valutakurs_usd = 10.72  
+  
+  if valuta == "EUR":
+    belop_i_euro = belop_i_nok / valutakurs_euro
+    belop_i_euro
+  else if valuta == "USD":
+    belop_i_usd = belop_i_nok / valutakurs_usd
+    belop_i_usd
+  else:
+    "Ugyldig valuta"
+  end
+where:
+  nok_til_valuta(118, "EUR") is 10
+  nok_til_valuta(107.2, "USD") is 10
+  nok_til_valuta(214.4, "USD") is 20
+end
