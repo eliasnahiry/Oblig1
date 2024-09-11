@@ -19,3 +19,29 @@ where:
   nok_til_valuta(107.2, "USD") is 10
   nok_til_valuta(214.4, "USD") is 20
 end
+
+# belop_i_nok -> float  
+# Returner et tall som er beløpet konvertert til euro
+fun nok_til_euro(belop_i_nok :: Number) -> Number:
+doc: "Konverter et gitt beløp i NOK til EUR."
+valutakurs_euro = 11.80
+belop_i_euro = belop_i_nok / valutakurs_euro
+belop_i_euro
+where:
+nok_til_euro(118.00) is 10
+nok_til_euro(236.00) is 20  
+nok_til_euro(0) is 0
+end
+
+# belop_i_nok -> float  
+# Returner et tall som er beløpet konvertert til USD
+fun nok_til_USD(belop_i_nok :: Number) -> Number:
+doc: "Konverter et gitt beløp i NOK til USD."
+valutakurs_USD = 10.72
+belop_i_USD = belop_i_nok / valutakurs_USD
+belop_i_USD
+where:
+nok_til_USD(107.2) is 10
+nok_til_USD(214.4) is 20  
+nok_til_USD(0) is 0
+end
