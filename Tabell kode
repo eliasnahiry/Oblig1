@@ -1,0 +1,70 @@
+
+#Tabellen (event-data)
+include shared-gdrive("dcic-2021", "1wyQZj_L0qqV9Ekgr9au6RX2iqt2Ga8Ep")
+include gdrive-sheets
+include data-source
+ssid =  "1RYN0i4Zx_UETVuYacgaGfnFcv4l9zd9toQTTdkQkj7g"
+event-data = 
+  load-table: ID, Fornavn, Etternavn, Epost, Kjonn, IP, Alder
+    source: load-spreadsheet(ssid).sheet-by-name("o1-oppg3", true)
+  end
+
+event-data
+
+
+#Oppgave A
+fun filtrer-alder(table):
+  doc: "Filterer alder og navn fra tablellen(80 og under, 30 og over)"
+  filter-with(table, lam(row): (row["Alder"] <= 80) and (row ["Alder"] >= 30) end)
+end
+
+
+
+#Oppgave B
+fun navn-og-mail(status):
+  doc: "Filtrering av alder."
+  tabell = block:
+    if status == "gammel": # Hvis du skriver "gammel" som status så returnerer den høyeste alder
+      sortertabell = order event-data: # Sorteringen
+        Alder descending
+    end
+      sortertabell.row-n(1)
+    else if status == "ung": # Vis du skriver "Ung" som status så er returnerer den lavest alder
+      sortertabell = order event-data: # Sorteringen
+        Alder ascending
+    end
+    sortertabell.row-n(1)
+  end
+end
+  tabell
+end
+
+navn-og-mail("gammel") # Input
+
+
+
+#Oppgave C
+fun gjennomsnittalder(tabell):
+  doc: "Regner ut gjennomsnits-alder i tabellen"
+  mean(tabell, "Alder") 
+where:
+  gjennomsnittalder(event-data) is 55.9 # Test
+end
+
+
+
+#Oppgave D
+Ny_column = build-column(event-data, "Fulltnavn", lam(r):
+    r["Fornavn"] + " " + r["Etternavn"] 
+end) 
+# Kontrakt bar-chart(event-data :: String :: String
+# Output Det er at selve diagrammet kommer som et image
+fun bar_chart_people(table):
+  doc: "Her lager funksjonen en bar-chart som viser alder på y-aksen og navn horisontalt på x-aksen"
+  bar-chart(
+    table,          # The table you're using
+      "Fulltnavn",       # X-axis column (names)
+    "Alder"         # Y-axis column (ages)
+  )
+end
+bar_chart_people(Ny_column)
